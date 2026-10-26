@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priority Calendar</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Material Symbols 아이콘 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+
+</head>
+
+<body>
+
+    <!-- 상단 (제목, 날짜, 로그인) -->
+    <header class="topbar">
+
+        <span class="material-symbols-outlined">calendar_month</span>
+
+        <div class="logo">Priority Calendar</div>
+
+        <div class="top-date">
+            <div id="today-date"></div>
+            <div id="current-time"></div>
+
+            <!-- 로그인 영역 -->
+            <div class="login-area" id="login-area">
+                <span class="material-symbols-outlined login-icon">
+                    account_circle
+                </span>
+
+                <button type="button" id="login-button">
+                    로그인하기
+                </button>
+            </div>
+        </div>
+
+    </header>
+
+
+    <main class="main-layout">
+
+        <section class="left-area">
+
+            <div class="quote-area">
+                <span class="material-symbols-outlined quote-icon">
+                    psychiatry
+                </span>
+
+                <div class="quote-text">
+                    오늘도 나만의 속도로, 하나씩 해내면 충분해요.
+                </div>
+            </div>
+
+
+            <div class="calendar-week">
+
+                <div class="calendar-area">
+
+                    <div class="calendar-header">
+
+                        <button id="prev-month" type="button">‹</button>
+
+                        <h3 id="calendar-title"></h3>
+
+                        <button id="next-month" type="button">›</button>
+
+                    </div>
+
+
+                    <div class="calendar-grid" id="calendar-grid">
+
+                        <div class="weekday">월</div>
+                        <div class="weekday">화</div>
+                        <div class="weekday">수</div>
+                        <div class="weekday">목</div>
+                        <div class="weekday">금</div>
+                        <div class="weekday">토</div>
+                        <div class="weekday">일</div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="week-area">
+
+                    <div class="section-header">
+
+                        <div class="section-title">
+
+                            <h3>이번 주 일정</h3>
+
+                            <span class="material-symbols-outlined">
+                                calendar_check
+                            </span>
+
+                        </div>
+
+
+                        <button type="button" class="add-schedule-btn">
+
+                            <span class="material-symbols-outlined">
+                                add
+                            </span>
+
+                            일정 추가
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- 이번 주 일정 목록 -->
+                    <div class="week-schedule-list">
+                        <!-- 이번 주 일정이 표시될 영역 -->
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="all-schedule">
+
+                <!-- 전체 일정 -->
+                <div class="section-header">
+
+                    <div class="section-title">
+
+                        <h3>전체 일정</h3>
+
+                        <span class="material-symbols-outlined">
+                            event_note
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- 일정 목록 -->
+                <div class="all-schedule-list">
+                    <!-- 전체 일정이 표시될 영역 -->
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="right-area">
+
+            <div class="right-top">
+
+                <div class="section-title">
+
+                    <span class="material-symbols-outlined">
+                        notification_important
+                    </span>
+
+                    <h3>오늘의 우선순위</h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="today-priority-list">
+                <!-- 오늘 할 일이 여기에 표시됩니다 -->
+            </div>
+
+
+            <div class="weekly-progress">
+
+                <div class="weekly-progress-header">
+
+                    <h3>
+                        <span class="material-symbols-outlined">
+                            task_alt
+                        </span>
+
+                        이번 주 진행률
+                    </h3>
+
+                    <span id="weekly-progress-percent">
+                        0%
+                    </span>
+
+                </div>
+
+
+                <div class="weekly-progress-bar">
+
+                    <div id="weekly-progress-fill"></div>
+
+                </div>
+
+
+                <div class="weekly-progress-footer">
+
+                    <span id="weekly-progress-message">
+                        이번 주 목표를 향해 가는 중이에요
+                    </span>
+
+                    <span class="material-symbols-outlined">
+                        directions_run
+                    </span>
+
+                    <span id="weekly-progress-count">
+                        0 / 0개 완료
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- 내 일정 찾기 -->
+            <div class="schedule-finder">
+
+                <div class="section-header">
+
+                    <div class="section-title">
+
+                        <h3>내 일정 찾기</h3>
+
+                        <span class="material-symbols-outlined">
+                            manage_search
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- 일정 검색창 -->
+                <div class="schedule-search-box">
+
+                    <span class="material-symbols-outlined">
+                        search
+                    </span>
+
+                    <input
+                        type="text"
+                        id="schedule-search"
+                        placeholder="할 일을 검색하세요"
+                    >
+
+                </div>
+
+
+                <!-- 선택한 날짜 표시 -->
+                <div
+                    id="selected-date-label"
+                    class="selected-date-label">
+                </div>
+
+
+                <!-- 일정 검색 결과 -->
+                <div
+                    id="schedule-search-results"
+                    class="schedule-search-results">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             날짜별 일정 확인 창
+             ============================== -->
+
+        <div
+            class="modal-overlay"
+            id="date-schedule-modal">
+
+            <div class="modal">
+
+                <div class="modal-header">
+
+                    <h3 id="date-schedule-title">
+                        날짜 일정
+                    </h3>
+
+                </div>
+
+
+                <div
+                    id="date-schedule-list"
+                    class="date-schedule-list">
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        id="date-add-schedule">
+
+                        <span class="material-symbols-outlined">
+                            add
+                        </span>
+
+                        일정 추가
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="close-date-schedule">
+
+                        닫기
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==============================
+             일정 추가 입력창
+             ============================== -->
+
+        <div
+            class="modal-overlay"
+            id="schedule-modal">
+
+            <div class="modal">
+
+                <div class="modal-header">
+
+                    <h3>새 일정 추가</h3>
+
+                    <button
+                        type="button"
+                        id="close-modal">
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <label for="schedule-title">
+                        일정 제목
+                    </label>
+
+                    <input
+                        type="text"
+                        id="schedule-title"
+                        placeholder="예: 졸업논문 제출"
+                    >
+
+
+                    <label for="schedule-date">
+                        시작일
+                    </label>
+
+                    <input
+                        type="date"
+                        id="schedule-date"
+                    >
+
+
+                    <label for="schedule-deadline">
+                        마감일
+                    </label>
+
+
+                    <div class="deadline-input">
+
+                        <input
+                            type="date"
+                            id="schedule-deadline"
+                        >
+
+
+                        <select id="schedule-deadline-ampm">
+
+                            <option value="AM">
+                                오전
+                            </option>
+
+                            <option value="PM">
+                                오후
+                            </option>
+
+                        </select>
+
+
+                        <input
+                            type="text"
+                            id="schedule-deadline-hour"
+                            placeholder="시"
+                            maxlength="2"
+                            inputmode="numeric"
+                        >
+
+
+                        <input
+                            type="text"
+                            id="schedule-deadline-minute"
+                            placeholder="분"
+                            maxlength="2"
+                            inputmode="numeric"
+                        >
+
+                    </div>
+
+
+                    <label for="schedule-priority">
+                        중요도
+                    </label>
+
+                    <select id="schedule-priority">
+
+                        <option value="normal">
+                            보통
+                        </option>
+
+                        <option value="important">
+                            중요
+                        </option>
+
+                        <option value="urgent">
+                            매우 중요
+                        </option>
+
+                    </select>
+
+
+                    <label for="schedule-color">
+                        일정 색상
+                    </label>
+
+                    <div class="schedule-color-picker">
+
+                        <input
+                            type="color"
+                            id="schedule-color"
+                            value="#D9A6A6"
+                        >
+
+                    </div>
+
+
+                    <label for="schedule-memo">
+                        메모
+                    </label>
+
+                    <textarea
+                        id="schedule-memo"
+                        placeholder="추가로 기록할 내용 (선택)"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        id="cancel-modal">
+                        취소
+                    </button>
+
+                    <button
+                        type="button"
+                        id="save-schedule">
+                        일정 저장
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==============================
+             일정 상세정보 창
+             ============================== -->
+
+        <div
+            class="modal-overlay"
+            id="detail-modal">
+
+            <div class="modal">
+
+                <div class="modal-header">
+
+                    <h3>
+                        일정 상세정보
+                    </h3>
+
+                </div>
+
+
+                <div class="detail-body">
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            날짜
+                        </span>
+
+                        <div id="detail-date"></div>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            해야 할 일
+                        </span>
+
+                        <div id="detail-title"></div>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            중요도
+                        </span>
+
+                        <div id="detail-priority"></div>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            마감기한
+                        </span>
+
+                        <div id="detail-deadline"></div>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span class="detail-label">
+                            메모
+                        </span>
+
+                        <div id="detail-memo"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        id="complete-schedule-button">
+                        완료
+                    </button>
+
+                    <button
+                        type="button"
+                        id="delete-schedule">
+                        일정 삭제
+                    </button>
+
+                    <button
+                        type="button"
+                        id="close-detail-button">
+                        닫기
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==============================
+             로그인 창
+             ============================== -->
+
+        <div
+            class="modal-overlay"
+            id="login-modal">
+
+            <div class="modal login-modal">
+
+                <div class="modal-header">
+
+                    <h3>
+                        로그인
+                    </h3>
+
+                    <button
+                        type="button"
+                        id="close-login-modal">
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <label for="login-id">
+                        아이디
+                    </label>
+
+                    <input
+                        type="text"
+                        id="login-id"
+                        placeholder="아이디를 입력하세요"
+                    >
+
+
+                    <label for="login-password">
+                        비밀번호
+                    </label>
+
+                    <input
+                        type="password"
+                        id="login-password"
+                        placeholder="비밀번호를 입력하세요"
+                    >
+
+                </div>
+
+
+                <div class="modal-footer login-footer">
+
+                    <button
+                        type="button"
+                        id="login-submit">
+                        로그인
+                    </button>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="signup-button"
+                    class="signup-button">
+                    회원가입
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==============================
+             회원가입 창
+             ============================== -->
+
+        <div
+            class="modal-overlay"
+            id="signup-modal">
+
+            <div class="modal login-modal">
+
+                <div class="modal-header">
+
+                    <h3>
+                        회원가입
+                    </h3>
+
+                    <button
+                        type="button"
+                        id="close-signup-modal">
+                        ×
+                    </button>
+
+                </div>
+
+
+                <div class="modal-body">
+
+                    <label for="signup-id">
+                        아이디
+                    </label>
+
+                    <input
+                        type="text"
+                        id="signup-id"
+                        placeholder="사용할 아이디를 입력하세요"
+                    >
+
+
+                    <label for="signup-password">
+                        비밀번호
+                    </label>
+
+                    <input
+                        type="password"
+                        id="signup-password"
+                        placeholder="사용할 비밀번호를 입력하세요"
+                    >
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        id="signup-submit">
+                        회원가입
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
+```

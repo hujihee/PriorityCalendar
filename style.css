@@ -1,0 +1,1714 @@
+/* 기본 설정 */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 40px;
+    font-family: "Malgun Gothic", sans-serif;
+    background-color: #f5efe8;
+    color: #49372c;
+}
+
+
+/* ==============================
+   상단 바
+   ============================== */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.topbar > .material-symbols-outlined {
+    flex-shrink: 0;
+    font-size: 26px;
+}
+
+.logo {
+    flex-shrink: 0;
+    font-size: 23px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.top-date {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
+
+    color: #6b4b38;
+    font-size: 14px;
+}
+
+
+/* ==============================
+   메인 레이아웃
+   ============================== */
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 7fr 3fr;
+    gap: 20px;
+    margin-top: 30px;
+    align-items: stretch;
+}
+
+.left-area {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+
+/* ==============================
+   글귀
+   ============================== */
+
+.quote-area {
+    min-height: 100px;
+    padding: 20px 25px;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    background-color: #eee4d8;
+    border-radius: 15px;
+}
+
+.quote-icon {
+    flex-shrink: 0;
+    font-size: 35px !important;
+    line-height: 1;
+}
+
+.quote-text {
+    color: #6b4b38;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow: hidden;
+}
+
+.quote-text.slide-in {
+    animation: quoteSlideUp 0.55s ease both;
+}
+
+@keyframes quoteSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ==============================
+   달력 + 이번 주 일정
+   ============================== */
+
+.calendar-week {
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+    gap: 20px;
+    min-height: 350px;
+}
+
+.calendar-area,
+.week-area {
+    border-radius: 15px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.calendar-area {
+    background-color: #fffaf5;
+    border: 1px solid #e8ddd0;
+}
+
+
+/* ==============================
+   달력
+   ============================== */
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.calendar-header h3 {
+    margin: 0;
+    color: #49372c;
+    font-size: 18px;
+}
+
+.calendar-header button {
+    border: none;
+    background: transparent;
+    color: #795d48;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+}
+
+.weekday {
+    text-align: center;
+    color: #9b8979;
+    font-size: 13px;
+    padding: 8px 0;
+}
+
+
+/* ==============================
+   달력 날짜
+   ============================== */
+
+/*
+   중요:
+   날짜 버튼 자체의 크기와 배치는 건드리지 않음.
+   숫자 위치도 기존 달력처럼 자연스럽게 유지.
+*/
+
+.calendar-day {
+    position: relative;
+
+    aspect-ratio: 1;
+    min-width: 0;
+
+    border: none;
+    border-radius: 10px;
+
+    background: transparent;
+    color: #49372c;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+
+/* 마우스를 올렸을 때 */
+
+.calendar-day:hover {
+    background-color: #eee4d8;
+}
+
+
+/* 오늘 날짜 */
+
+.calendar-day.today {
+    background-color: #e2d4c5;
+    font-weight: 700;
+}
+
+
+/* 선택한 날짜 */
+
+.calendar-day.selected {
+    background-color: #795d48;
+    color: white;
+}
+
+
+/* 다른 달 날짜 */
+
+.calendar-day.other-month {
+    color: #c7bbae;
+}
+
+
+/* ==============================
+   달력 일정 동그라미
+   ============================== */
+
+/*
+   날짜 버튼 안에 일정 동그라미가 들어감.
+
+   숫자는 기존 위치 그대로 두고
+   동그라미만 날짜 아래쪽에 배치.
+*/
+
+.schedule-dots {
+    position: absolute;
+
+    left: 50%;
+    bottom: 8px;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+
+    height: 8px;
+
+    pointer-events: none;
+
+    z-index: 5;
+}
+
+
+/* 일정 하나의 색상 동그라미 */
+
+.schedule-dot {
+    width: 8px;
+    height: 8px;
+
+    min-width: 8px;
+    min-height: 8px;
+
+    border-radius: 50%;
+
+    display: block;
+
+    flex-shrink: 0;
+}
+
+
+/* ==============================
+   일정이 있는 날짜
+   ============================== */
+
+/*
+   JS에서 .has-schedule을 붙여도
+   날짜 전체 모양은 변하지 않음.
+*/
+
+.calendar-day.has-schedule {
+    position: relative;
+}
+
+
+/* ==============================
+   이번 주 일정
+   ============================== */
+
+.week-area {
+    background-color: #f1e9e0;
+}
+
+
+/* ==============================
+   섹션 제목
+   ============================== */
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.section-title h3 {
+    margin: 0;
+    color: #49372c;
+    font-size: 18px;
+}
+
+.section-title .material-symbols-outlined {
+    display: inline-flex;
+    align-items: center;
+    color: #8b6b55;
+    font-size: 21px;
+}
+
+
+/* ==============================
+   섹션 헤더
+   ============================== */
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+
+/* ==============================
+   일정 추가 버튼
+   ============================== */
+
+.add-schedule-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    padding: 9px 15px;
+
+    border: none;
+    border-radius: 25px;
+
+    background-color: #795d48;
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s;
+}
+
+.add-schedule-btn:hover {
+    background-color: #624733;
+}
+
+.add-schedule-btn .material-symbols-outlined {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+
+/* ==============================
+   전체 일정
+   ============================== */
+
+.all-schedule {
+    min-height: 200px;
+
+    background-color: #e9dfd3;
+
+    border-radius: 15px;
+
+    padding: 20px;
+}
+
+
+/* ==============================
+   오른쪽 영역
+   ============================== */
+
+.right-area {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+
+    min-width: 0;
+}
+
+
+/* ==============================
+   오늘의 우선순위
+   ============================== */
+
+.right-top {
+    background-color: #fffaf5;
+
+    border: 1px solid #e8ddd1;
+
+    border-radius: 16px;
+
+    padding: 24px;
+}
+
+.right-top .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.right-top .section-title h3 {
+    margin: 0;
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.right-top .section-title .material-symbols-outlined {
+    color: #8b6b55;
+    font-size: 23px;
+}
+
+
+/* ==============================
+   이번 주 진행률
+   ============================== */
+
+.weekly-progress {
+    flex: 0 0 200px;
+
+    height: 200px;
+
+    min-height: 0;
+
+    box-sizing: border-box;
+
+    background-color: #e2d4c5;
+
+    border-radius: 15px;
+
+    padding: 14px 20px;
+}
+
+.weekly-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 20px;
+}
+
+.weekly-progress-header h3 {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    line-height: 1;
+}
+
+.weekly-progress-header h3 .material-symbols-outlined {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+    line-height: 1;
+
+    color: #7c614f;
+
+    vertical-align: middle;
+
+    position: relative;
+    top: 1px;
+}
+
+
+/* 진행률 바 */
+
+.weekly-progress-bar {
+    display: block;
+
+    width: 100%;
+    height: 12px;
+
+    background-color: #ffffff;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    margin-top: 4px;
+    margin-bottom: 22px;
+
+    box-shadow: inset 0 1px 2px rgba(96, 75, 57, 0.08);
+}
+
+#weekly-progress-fill {
+    display: block;
+
+    width: 0%;
+    height: 100%;
+
+    background-color: #967354;
+
+    border-radius: 20px;
+
+    transition: width 0.4s ease;
+}
+
+
+/* 진행률 아래 */
+
+.weekly-progress-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 0;
+    padding-top: 2px;
+
+    font-size: 11px;
+    line-height: 1.6;
+
+    color: #806f5d;
+}
+
+#weekly-progress-message {
+    font-size: 15px;
+    flex: 1;
+}
+
+.weekly-progress-footer .material-symbols-outlined {
+    font-size: 18px;
+
+    color: #967354;
+
+    flex-shrink: 0;
+}
+
+#weekly-progress-count {
+    font-size: 15px;
+
+    white-space: nowrap;
+}
+
+
+/* ==============================
+   내 일정 찾기
+   ============================== */
+
+.schedule-finder {
+    background-color: #fffdf9;
+
+    border: 1px solid #e8ded1;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    margin-top: 20px;
+
+    min-height: 120px;
+}
+
+
+/* 검색창 */
+
+.schedule-search-box {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 10px 12px;
+
+    margin-top: 14px;
+
+    background-color: #f5efe6;
+
+    border: 1px solid #e5d8c8;
+
+    border-radius: 10px;
+
+    color: #8b6b55;
+}
+
+.schedule-search-box .material-symbols-outlined {
+    font-size: 21px;
+
+    flex-shrink: 0;
+}
+
+#schedule-search {
+    width: 100%;
+
+    min-width: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #49372c;
+
+    font-family: inherit;
+    font-size: 13px;
+}
+
+#schedule-search::placeholder {
+    color: #a18d7b;
+}
+
+
+/* 선택 날짜 */
+
+.selected-date-label {
+    margin: 16px 0 10px;
+
+    color: #795d48;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* 검색 결과 */
+
+.schedule-search-results {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.schedule-search-results .schedule-item {
+    margin-bottom: 0;
+}
+
+.schedule-search-empty {
+    padding: 18px 8px;
+
+    color: #a18d7b;
+
+    font-size: 13px;
+
+    text-align: center;
+
+    line-height: 1.6;
+}
+
+
+/* ==============================
+   모달
+   ============================== */
+
+.modal-overlay {
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background-color: rgba(55, 40, 30, 0.4);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+
+    padding: 20px;
+}
+
+
+/* 모달 본체 */
+
+.modal {
+    width: 100%;
+
+    max-width: 440px;
+
+    background-color: #fffaf5;
+
+    border: 1px solid #e8ddd1;
+
+    border-radius: 18px;
+
+    padding: 26px;
+
+    box-shadow: 0 12px 35px rgba(73, 55, 44, 0.15);
+}
+
+
+/* 모달 제목 */
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 24px;
+}
+
+.modal-header h3 {
+    margin: 0;
+
+    font-size: 20px;
+}
+
+#close-modal {
+    border: none;
+
+    background: none;
+
+    color: #795d48;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+
+/* ==============================
+   입력 항목
+   ============================== */
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+.modal-body label {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-top: 8px;
+}
+
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border: 1px solid #e2d4c5;
+
+    border-radius: 9px;
+
+    background-color: #ffffff;
+
+    color: #49372c;
+
+    font-family: inherit;
+
+    font-size: 14px;
+}
+
+.modal-body textarea {
+    min-height: 80px;
+
+    resize: vertical;
+}
+
+
+/* ==============================
+   마감일 시간 입력
+   ============================== */
+
+.deadline-input {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+.deadline-input input[type="date"] {
+    flex: 1;
+}
+
+.deadline-input select {
+    width: 75px;
+
+    flex-shrink: 0;
+}
+
+.deadline-input input[type="text"] {
+    width: 45px;
+
+    text-align: center;
+
+    padding-left: 5px;
+    padding-right: 5px;
+
+    flex-shrink: 0;
+}
+
+.deadline-input span {
+    flex-shrink: 0;
+
+    font-weight: 500;
+}
+
+
+/* ==============================
+   일정 색상 선택
+   ============================== */
+
+.schedule-color-picker {
+    display: flex;
+    align-items: center;
+
+    margin-top: 6px;
+}
+
+#schedule-color {
+    width: 42px;
+    height: 32px;
+
+    padding: 3px;
+
+    border: 1px solid #d8cbbe;
+
+    border-radius: 10px;
+
+    background: #f8f3ed;
+
+    cursor: pointer;
+
+    box-sizing: border-box;
+}
+
+#schedule-color::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+#schedule-color::-webkit-color-swatch {
+    border: none;
+
+    border-radius: 7px;
+}
+
+
+/* ==============================
+   모달 아래 버튼
+   ============================== */
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 24px;
+}
+
+.modal-footer button {
+    padding: 10px 18px;
+
+    border-radius: 20px;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+#cancel-modal {
+    border: 1px solid #e2d4c5;
+
+    background-color: #ffffff;
+
+    color: #795d48;
+}
+
+#save-schedule {
+    border: none;
+
+    background-color: #795d48;
+
+    color: #ffffff;
+}
+
+#save-schedule:hover {
+    background-color: #624733;
+}
+
+
+/* ==============================
+   일정 목록
+   ============================== */
+
+.schedule-item {
+    padding: 14px 16px;
+
+    margin-bottom: 10px;
+
+    background-color: #fffaf5;
+
+    border: 1px solid #e8ddd1;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s;
+}
+
+.schedule-item:hover {
+    background-color: #f5eee6;
+}
+
+
+/* 일정 정보 */
+
+.schedule-info {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 6px;
+
+    min-width: 0;
+}
+
+
+/* ==============================
+   일정 제목 + 색상 원
+   ============================== */
+
+.schedule-item-title {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+
+    min-width: 0;
+}
+
+
+/* 일정 제목 옆 색상 원 */
+
+.schedule-color-dot {
+    width: 10px;
+    height: 10px;
+
+    min-width: 10px;
+    min-height: 10px;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+
+    display: inline-block;
+}
+
+
+/* ==============================
+   일정 날짜
+   ============================== */
+
+.schedule-item-date {
+    color: #8b7563;
+
+    font-size: 12px;
+}
+
+
+/* ==============================
+   중요도
+   ============================== */
+
+.schedule-priority {
+    padding: 4px 9px;
+
+    border-radius: 12px;
+
+    background-color: #eee1d3;
+
+    color: #795d48;
+
+    font-size: 11px;
+}
+
+
+/* ==============================
+   메모
+   ============================== */
+
+.schedule-item-memo {
+    color: #795d48;
+
+    font-size: 12px;
+
+    overflow-wrap: anywhere;
+
+    white-space: pre-wrap;
+}
+
+
+/* ==============================
+   일정 마감일
+   ============================== */
+
+.schedule-item-deadline {
+    font-size: 12px;
+
+    color: #a16e50;
+
+    margin-top: 4px;
+}
+
+
+/* ==============================
+   완료된 일정
+   ============================== */
+
+.completed-schedule {
+    background-color: #e5d5c2;
+
+    border-color: #c8b29a;
+
+    opacity: 0.85;
+}
+
+.completed-schedule .schedule-title {
+    text-decoration: line-through;
+
+    color: #806b58;
+}
+
+
+/* ==============================
+   마감일 카운트다운
+   ============================== */
+
+.deadline-countdown {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    margin-top: 6px;
+
+    color: #76583f;
+
+    font-weight: 700;
+
+    font-size: 13px;
+}
+
+.deadline-countdown .material-symbols-outlined {
+    font-size: 18px;
+
+    font-weight: normal;
+}
+
+
+/* ==============================
+   상세정보
+   ============================== */
+
+.detail-body {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+.detail-item {
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid #eee3d8;
+}
+
+.detail-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #8b7563;
+
+    font-size: 13px;
+}
+
+#detail-date,
+#detail-title,
+#detail-priority,
+#detail-memo {
+    color: #49372c;
+
+    font-size: 15px;
+
+    overflow-wrap: anywhere;
+
+    white-space: pre-wrap;
+}
+
+#detail-title {
+    font-weight: 600;
+}
+
+#detail-memo {
+    min-height: 24px;
+
+    line-height: 1.6;
+}
+
+
+/* 삭제 버튼 */
+
+#delete-schedule {
+    border: 1px solid #c58e83;
+
+    background-color: #fffaf5;
+
+    color: #a34f43;
+}
+
+#delete-schedule:hover {
+    background-color: #f5e6e1;
+}
+
+
+/* ==============================
+   일정 없음
+   ============================== */
+
+.all-schedule-list,
+.week-schedule-list {
+    min-height: 100px;
+}
+
+.schedule-empty {
+    min-height: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #a18d7b;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* ==============================
+   날짜별 일정 목록
+   ============================== */
+
+.date-schedule-list {
+    max-height: 300px;
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+#date-add-schedule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+}
+
+#date-add-schedule .material-symbols-outlined {
+    font-size: 18px;
+
+    line-height: 1;
+}
+
+
+/* ==============================
+   반응형
+   ============================== */
+
+@media (max-width: 1100px) {
+
+    body {
+        padding: 25px;
+    }
+
+    .main-layout {
+        gap: 15px;
+    }
+
+    .calendar-week {
+        gap: 15px;
+    }
+
+    .calendar-area,
+    .week-area {
+        padding: 15px;
+    }
+
+    .schedule-item {
+        padding: 12px;
+    }
+
+    /*
+       작은 화면에서도 달력 숫자는 그대로 유지하고
+       동그라미만 살짝 줄임
+    */
+
+    .schedule-dot {
+        width: 7px;
+        height: 7px;
+
+        min-width: 7px;
+        min-height: 7px;
+    }
+
+    .schedule-dots {
+        gap: 2px;
+    }
+
+    .schedule-color-dot {
+        width: 8px;
+        height: 8px;
+
+        min-width: 8px;
+        min-height: 8px;
+    }
+
+    .schedule-item-title {
+        gap: 6px;
+    }
+}
+
+
+/* ==============================
+   화면이 더 작아졌을 때
+   ============================== */
+
+@media (max-width: 850px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .main-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .right-area {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .schedule-finder {
+        grid-column: 1 / -1;
+    }
+
+    .top-date {
+        font-size: 12px;
+    }
+}
+
+
+/* ==============================
+   아주 작은 화면
+   ============================== */
+
+@media (max-width: 650px) {
+
+    .topbar {
+        flex-wrap: wrap;
+    }
+
+    .top-date {
+        width: 100%;
+
+        margin-left: 0;
+    }
+
+    .calendar-week {
+        grid-template-columns: 1fr;
+    }
+
+    .right-area {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-finder {
+        grid-column: auto;
+    }
+
+    .quote-area {
+        padding: 18px;
+    }
+
+    .quote-icon {
+        font-size: 30px !important;
+    }
+
+    .quote-text {
+        font-size: 14px;
+    }
+}
+
+/* =========================
+   로그인 영역
+   ========================= */
+
+.login-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 20px;
+}
+
+.login-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 27px;
+    color: #6b5547;
+}
+
+.login-button {
+    border: none;
+    background: none;
+    color: #6b5547;
+    font-size: 14px;
+    font-family: "Malgun Gothic", sans-serif;
+    cursor: pointer;
+    padding: 5px 8px;
+}
+
+.login-button:hover {
+    color: #49372c;
+    text-decoration: underline;
+}
+
+
+/* =========================
+   로그인 / 회원가입 모달
+   ========================= */
+
+#login-modal,
+#signup-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(73, 55, 44, 0.25);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+
+/* 모달 안쪽 */
+
+#login-modal .modal,
+#signup-modal .modal {
+    width: 360px;
+    max-width: calc(100% - 40px);
+    background: #fffaf5;
+    border-radius: 18px;
+    padding: 28px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(73, 55, 44, 0.18);
+}
+
+
+/* 모달 제목 */
+
+#login-modal .modal-header,
+#signup-modal .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+#login-modal .modal-header h3,
+#signup-modal .modal-header h3 {
+    margin: 0;
+    color: #49372c;
+    font-size: 21px;
+}
+
+
+/* 입력 영역 */
+
+#login-modal .modal-body,
+#signup-modal .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* 라벨 */
+
+#login-modal label,
+#signup-modal label {
+    margin-bottom: 7px;
+    color: #6b5547;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* input */
+
+#login-modal input,
+#signup-modal input {
+    width: 100%;
+    height: 44px;
+    box-sizing: border-box;
+    border: 1px solid #dfd1c4;
+    border-radius: 10px;
+    background: #f8f1ea;
+    color: #49372c;
+    padding: 0 13px;
+    margin-bottom: 15px;
+    outline: none;
+    font-family: "Malgun Gothic", sans-serif;
+    font-size: 14px;
+}
+
+#login-modal input:focus,
+#signup-modal input:focus {
+    border-color: #b99a83;
+    background: #fffaf5;
+}
+
+
+/* 로그인 버튼 */
+
+/* 로그인 영역 */
+.login-area {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.login-icon {
+    font-size: 24px;
+    color: #6b5547;
+}
+
+/* 로그인하기 - 버튼처럼 보이지 않게 */
+#login-button {
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    
+    color: #6b5547;
+    font-family: "Malgun Gothic", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* 마우스를 올렸을 때만 밑줄 */
+#login-button:hover {
+    text-decoration: underline;
+}
+
+/* ==============================
+   로그인 / 회원가입 창
+   ============================== */
+
+#login-modal,
+#signup-modal {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(73, 55, 44, 0.25);
+}
+
+/* 로그인 / 회원가입 모달 */
+
+.login-modal {
+    width: 360px;
+    max-width: calc(100% - 40px);
+    background: #fffaf5;
+    border-radius: 18px;
+    padding: 28px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 30px rgba(73, 55, 44, 0.18);
+}
+
+/* 로그인/회원가입 창의 헤더 */
+.login-modal .modal-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 로그인/회원가입 창 닫기 버튼 */
+.login-modal .modal-header button {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    border: none;
+    background: none;
+
+    font-size: 24px;
+    color: #49372c;
+
+    cursor: pointer;
+    padding: 4px;
+}
+
+.login-modal .modal-header h3 {
+    margin: 0;
+    color: #49372c;
+    font-size: 21px;
+}
+
+/* 닫기 버튼 */
+
+#close-login-modal,
+#close-signup-modal {
+    border: none;
+    background: transparent;
+    color: #806b5d;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+}
+
+#close-login-modal:hover,
+#close-signup-modal:hover {
+    color: #49372c;
+}
+
+/* 입력 영역 */
+
+.login-modal .modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-modal label {
+    margin-bottom: 7px;
+    color: #6b5547;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.login-modal input {
+    width: 100%;
+    height: 44px;
+    box-sizing: border-box;
+    border: 1px solid #dfd1c4;
+    border-radius: 10px;
+    background: #f8f1ea;
+    color: #49372c;
+    padding: 0 13px;
+    margin-bottom: 15px;
+    outline: none;
+    font-family: "Malgun Gothic", sans-serif;
+    font-size: 14px;
+}
+
+.login-modal input:focus {
+    border-color: #b99a83;
+    background: #fffaf5;
+}
+
+/* 로그인 버튼 */
+
+#login-submit {
+    width: 100%;
+    height: 44px;
+    border: none;
+    border-radius: 10px;
+    background: #8b6b57;
+    color: white;
+    font-family: "Malgun Gothic", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#login-submit:hover {
+    background: #755744;
+}
+
+/* 로그인 버튼 아래 회원가입 */
+
+.signup-button {
+    display: block;
+    border: none;
+    background: transparent;
+    color: #8b6b57;
+    font-family: "Malgun Gothic", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 5px;
+    margin: 12px auto 0;
+}
+
+.signup-button:hover {
+    text-decoration: underline;
+}
+
+/* 로그인 모달 footer */
+
+.login-footer {
+    display: block;
+    margin-top: 5px;
+}
+
+/* 회원가입 버튼 */
+
+#signup-submit {
+    width: 100%;
+    height: 44px;
+    border: none;
+    border-radius: 10px;
+    background: #8b6b57;
+    color: white;
+    font-family: "Malgun Gothic", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#signup-submit:hover {
+    background: #755744;
+}
+
+/* 로그아웃 버튼 */
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    margin-left: 8px;
+
+    border: none;
+    background: transparent;
+
+    color: #6f5a4b;
+
+    cursor: pointer;
+
+    border-radius: 50%;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.logout-button:hover {
+    background-color: #e9ddd0;
+    color: #49372c;
+}
+
+.logout-button .material-symbols-outlined {
+    font-size: 22px;
+}
