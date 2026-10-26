@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory
-import pyodbc
+import psycopg2
+import os
 
 app = Flask(__name__)
 
@@ -9,11 +10,8 @@ app = Flask(__name__)
 # ======================================================
 
 def get_db_connection():
-    return pyodbc.connect(
-        "DRIVER={ODBC Driver 17 for SQL Server};"
-        "SERVER=localhost;"
-        "DATABASE=PriorityCalendar;"
-        "Trusted_Connection=yes;"
+    return psycopg2.connect(
+        os.environ.get("DATABASE_URL")
     )
 
 
@@ -76,8 +74,8 @@ def signup():
         cursor.execute(
             """
             SELECT user_id
-            FROM Users
-            WHERE username = ?
+            FROM "Users"
+            WHERE username = %s
             """,
             (username,)
         )
@@ -93,12 +91,12 @@ def signup():
         # 회원가입
         cursor.execute(
             """
-            INSERT INTO Users
+            INSERT INTO "Users"
             (
                 username,
                 password
             )
-            VALUES (?, ?)
+            VALUES (%s, %s)
             """,
             (
                 username,
@@ -158,9 +156,9 @@ def login():
             SELECT
                 user_id,
                 username
-            FROM Users
-            WHERE username = ?
-            AND password = ?
+            FROM "Users"
+            WHERE username = %s
+            AND password = %s
             """,
             (
                 username,
@@ -246,8 +244,8 @@ def get_schedules():
                 color,
                 memo,
                 completed
-            FROM Schedules
-            WHERE user_id = ?
+            FROM "Schedules"
+            WHERE user_id = %s
             ORDER BY start_date ASC, schedule_id ASC
             """,
             (user_id,)
@@ -500,8 +498,8 @@ def add_schedule():
         cursor.execute(
             """
             SELECT user_id
-            FROM Users
-            WHERE user_id = ?
+            FROM "Users"
+            WHERE user_id = %s
             """,
             (user_id,)
         )
@@ -524,7 +522,7 @@ def add_schedule():
 
         cursor.execute(
             """
-            INSERT INTO Schedules
+            INSERT INTO "Schedules"
             (
                 user_id,
                 title,
@@ -540,17 +538,17 @@ def add_schedule():
             )
             VALUES
             (
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                ?,
-                0
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
+                FALSE
             )
             """,
             (
@@ -581,10 +579,11 @@ def add_schedule():
 
         cursor.execute(
             """
-            SELECT TOP 1 schedule_id
-            FROM Schedules
-            WHERE user_id = ?
+            SELECT schedule_id
+            FROM "Schedules"
+            WHERE user_id = %s
             ORDER BY schedule_id DESC
+            LIMIT 1
             """,
             (user_id,)
         )
@@ -674,17 +673,17 @@ def complete_schedule(schedule_id):
                 "message": "잘못된 사용자 정보입니다."
             }), 400
 
-        completed_value = 1 if completed else 0
+        completed_value = True if completed else False
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
         cursor.execute(
             """
-            UPDATE Schedules
-            SET completed = ?
-            WHERE schedule_id = ?
-            AND user_id = ?
+            UPDATE "Schedules"
+            SET completed = %s
+            WHERE schedule_id = %s
+            AND user_id = %s
             """,
             (
                 completed_value,
@@ -756,9 +755,9 @@ def delete_schedule(schedule_id):
 
         cursor.execute(
             """
-            DELETE FROM Schedules
-            WHERE schedule_id = ?
-            AND user_id = ?
+            DELETE FROM "Schedules"
+            WHERE schedule_id = %s
+            AND user_id = %s
             """,
             (
                 schedule_id,
